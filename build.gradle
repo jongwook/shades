@@ -24,18 +24,20 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
     compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-afterburner', version: jacksonVersion
-    compile group: 'org.hbase', name: 'asynchbase', version: asynchbaseVersion
+    compile(group: 'org.hbase', name: 'asynchbase', version: asynchbaseVersion) {
+        exclude group: 'org.slf4j', module: 'log4j-over-slf4j'
+    }
     compile group: 'org.apache.curator', name: 'curator-framework', version: curatorVersion
     compile group: 'com.google.guava', name: 'guava', version: guavaVersion
     compile group: 'com.ning', name: 'async-http-client', version: ningVersion
 }
 
 shadowJar {
-    relocate 'com.fasterxml.jackson', 'com.kakaocorp.shaded.jackson'
-    relocate 'com.google.common', 'com.kakaocorp.shaded.guava'
-    relocate 'com.ning', 'com.kakaocorp.shaded.ning'
-    relocate 'com.thoughtworks.paranamer', 'com.kakaocorp.shaded.paranamer'
-    relocate 'org.jboss.netty', 'com.kakaocorp.shaded.netty'
+    relocate 'com.fasterxml.jackson', 'com.kakao.shaded.jackson'
+    relocate 'com.google.common', 'com.kakao.shaded.guava'
+    relocate 'com.ning', 'com.kakao.shaded.ning'
+    relocate 'com.thoughtworks.paranamer', 'com.kakao.shaded.paranamer'
+    relocate 'org.jboss.netty', 'com.kakao.shaded.netty'
 
     baseName = "shades"
     classifier = ''
