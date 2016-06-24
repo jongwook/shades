@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '1.2.1'
+}
+
+group 'com.github.jongwook'
+version '0.0.3'
+
+def jacksonVersion = '2.4.4'
+def asynchbaseVersion = '1.7.1'
+def curatorVersion = '2.11.0'
+def guavaVersion = '18.0'
+def ningVersion = '1.9.29'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-afterburner', version: jacksonVersion
+    compile group: 'org.hbase', name: 'asynchbase', version: asynchbaseVersion
+    compile group: 'org.apache.curator', name: 'curator-framework', version: curatorVersion
+    compile group: 'com.google.guava', name: 'guava', version: guavaVersion
+    compile group: 'com.ning', name: 'async-http-client', version: ningVersion
+}
+
+shadowJar {
+    relocate 'com.fasterxml.jackson', 'com.kakaocorp.shaded.jackson'
+    relocate 'com.google.common', 'com.kakaocorp.shaded.guava'
+    relocate 'com.ning', 'com.kakaocorp.shaded.ning'
+    relocate 'com.thoughtworks.paranamer', 'com.kakaocorp.shaded.paranamer'
+    relocate 'org.jboss.netty', 'com.kakaocorp.shaded.netty'
+
+    baseName = "shades"
+    classifier = ''
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) {
+            from components.shadow
+            artifactId = "shades"
+        }
+    }
+}
