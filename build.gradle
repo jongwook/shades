@@ -5,9 +5,9 @@ plugins {
 }
 
 group 'com.github.jongwook'
-version '0.0.3'
+version '0.0.4'
 
-def jacksonVersion = '2.4.4'
+def jacksonVersion = '2.7.4'
 def asynchbaseVersion = '1.7.1'
 def curatorVersion = '2.11.0'
 def guavaVersion = '18.0'
